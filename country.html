@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+        .hero {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            font-family: 'Roboto', sans-serif;
+
+        }
+
+        .hero-element {
+            background-color: #183a1d;
+            color: white;
+            padding: 10px;
+
+        }
+
+        .flag {
+            height: auto;
+            width: fit-content;
+        }
+
+        .fade-in {
+            animation: fadeIn 2s;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero" id="countries">
+
+    </div>
+    <button onclick="country(url)">LOAD ALL countries</button>
+    <script>
+        const url='https://restcountries.com/v2/all'
+        function country(url){
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                data.map(item => {
+                    console.log(item);
+                    const hero = document.getElementById('countries')
+                    const newElement = document.createElement('div')
+                    newElement.classList.add('hero-element')
+                    newElement.classList.add('fade-in')
+                    newElement.innerHTML = `
+                <img src=${item.flags.png} alt="" class='flag' srcset="">
+                <p>Country Name : ${item.name}</p>
+                <p>Country Capital : ${item.capital ? item.capital : 'No capital'}</p>
+                <p>Country Region : ${item.region}</p>
+                <p>Country Population : ${item.population}</p>
+                <p>Country Languages : ${item.languages[0].name}</p>
+                `
+                    hero.appendChild(newElement)
+
+                })
+            })
+        }
+       
+    </script>
+</body>
+
+</html>
